@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.scroll-watcher {
+  height: 10px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: lime;
+  width: 100%;
+  scale: 0 1;
+  animation: scroll-watcher linear;
+  transform-origin: left;
+  animation-timeline: scroll();
+}
+
+@keyframes scroll-watcher {
+  to {
+    scale: 1 1;
+  }
+}
+
+.framework-lines {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.framework-lines div {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.framework-lines p {
+    background: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.pexels.com/photos/3573382/pexels-photo-3573382.jpeg') no-repeat center center/cover;
+    text-align: center;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin: 0;
+}
+
+.section {
+    padding: 2rem;
+}
+
+.section img {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 10px;
+}
+
+article {
+  margin: 2rem 0;
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+article h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}

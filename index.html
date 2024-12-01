@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Gallery with Animations</title>
+    <style>
+        /* CSS START */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .scroll-watcher {
+            height: 10px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background-color: lime;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.1s linear;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://images.pexels.com/photos/3573382/pexels-photo-3573382.jpeg') no-repeat center center/cover;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .section {
+            padding: 2rem;
+        }
+
+        .section img {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 1rem auto;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        article {
+            margin: 2rem 0;
+            background: #1e1e1e;
+            padding: 1.5rem;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        article.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        article h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+       
+        .framework-lines {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 10;
+            align-items: center;
+            height: 160px;
+        }
+
+        .framework-lines .first-line, .second-line{
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .framework-lines p {
+            background: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        /* CSS END */
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Welcome to the Awesome Gallery</h1>
+    </div>
+
+    <div class="section">
+        <img src="https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg" alt="Nature Scene">
+        <article class="fade-in">
+            <h2>Exploring the Beauty of Nature</h2>
+            <p>Nature offers us an escape from the monotony of everyday life. From serene landscapes to vibrant flora, it inspires awe and reminds us of our connection to the Earth.</p>
+        </article>
+
+        <img src="https://images.pexels.com/photos/1237119/pexels-photo-1237119.jpeg" alt="Mountains">
+        <article class="fade-in">
+            <h2>Mountain Adventures</h2>
+            <p>Standing tall, mountains represent strength and resilience, offering breathtaking views and unforgettable experiences.</p>
+        </article>
+
+        <div class="framework-lines">
+                <div class="first-line">
+                    <p>React</p>
+                    <p>Angular</p>
+                    <p>Vue</p>
+                </div>
+                <div class="sacond-line">
+                    <p>Bootstrap</p>
+                    <p>Tailwind</p>
+                    <p>Bulma</p>
+                </div>
+           
+        </div>
+
+        <img src="https://images.pexels.com/photos/301599/pexels-photo-301599.jpeg" alt="City Lights">
+        <article class="fade-in">
+            <h2>Cityscapes and Urban Adventures</h2>
+            <p>The city lights create a mesmerizing tapestry that speaks of human ambition and innovation. Urban exploration reveals a world of opportunities and stories waiting to be uncovered.</p>
+        </article>
+
+        <img src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg" alt="Ocean View">
+        <article class="fade-in">
+            <h2>The Endless Ocean</h2>
+            <p>The ocean represents freedom and mystery. Its vastness and the rhythm of its waves have a calming effect, inspiring countless tales and dreams.</p>
+        </article>
+    </div>
+
+    <div class="scroll-watcher"></div>
+
+    <script>
+        // Scroll watcher animation
+        window.addEventListener("scroll", () => {
+            const scrollWatcher = document.querySelector(".scroll-watcher");
+            const scrollPercentage =
+                (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            scrollWatcher.style.transform = `scaleX(${scrollPercentage / 100})`;
+
+            // Get the framework lines and update their scroll position based on page scroll
+            const frameworkLines = document.querySelector(".framework-lines");
+            const scrollPosition = window.scrollY;
+
+            // Adjust the horizontal scroll of framework lines based on vertical scroll
+            const scrollAmount = scrollPosition * 0.3; // Adjust the 0.3 factor for speed control
+
+            // Move the first line to the right and the second line to the left
+            frameworkLines.children[0].style.transform = `translateX(${scrollAmount}px)`;  // Scroll the first line to the right
+            frameworkLines.children[1].style.transform = `translateX(-${scrollAmount}px)`; // Scroll the second line to the left
+        });
+
+        // Add fade-in animation to visible articles and images
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        if (entry.target.tagName === "IMG") {
+                            entry.target.style.opacity = 1;
+                        }
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".fade-in").forEach((article) => {
+            observer.observe(article);
+        });
+
+        document.querySelectorAll(".section img").forEach((img) => {
+            observer.observe(img);
+        });
+    </script>
+</body>
+</html>
